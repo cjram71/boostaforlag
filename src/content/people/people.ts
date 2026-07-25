@@ -4,8 +4,8 @@ export const malla = {
   imageOriginal: '/assets/originals/malla-taipale-original.jpg',
   imageAvif: '/assets/optimized/malla-taipale-900.avif',
   imageWebp: '/assets/optimized/malla-taipale-900.webp',
-  width: 900,
-  height: 1105,
+  width: 720,
+  height: 960,
   quote:
     'Jag har varit rak och ganska sträng i mitt arbete men alltid gjort jobbet med stor kärlek och aldrig någonsin nedvärderat mina elever.',
 };
@@ -16,6 +16,6 @@ export const nadja = {
   imageOriginal: '/assets/originals/nadja-original.jpg',
   imageAvif: '/assets/optimized/nadja-900.avif',
   imageWebp: '/assets/optimized/nadja-900.webp',
-  width: 900,
-  height: 1274,
+  width: 1554,
+  height: 2160,
 };
