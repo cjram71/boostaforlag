@@ -29,6 +29,7 @@ export type Book = {
   priceSek: number;
   checkoutUrl: string;
   cover: string;
+  coverSrcSet: string;
   coverWidth: number;
   coverHeight: number;
   shortDescription: string;
@@ -46,8 +47,9 @@ export const books: Book[] = [
     priceSek: 134,
     checkoutUrl: "https://buy.stripe.com/eVq6oA2Wn4TE3wY8Kfb3q02",
     cover: "/assets/optimized/rektor.webp",
-    coverWidth: 375,
-    coverHeight: 607,
+    coverSrcSet: "/assets/optimized/rektor-240.webp 240w, /assets/optimized/rektor-320.webp 320w",
+    coverWidth: 321,
+    coverHeight: 500,
     shortDescription: "En personlig och praktisk bok om rektorns vardag, ansvar och möjligheten att vända en skolas utveckling.",
     audience: "För nya och erfarna rektorer och för andra som vill förstå skolledarens uppdrag.",
     highlights: [
@@ -66,8 +68,9 @@ export const books: Book[] = [
     priceSek: 146,
     checkoutUrl: "https://buy.stripe.com/bJe5kw0Ofcm62sU2lRb3q00",
     cover: "/assets/optimized/skolvalet.webp",
-    coverWidth: 375,
-    coverHeight: 607,
+    coverSrcSet: "/assets/optimized/skolvalet-240.webp 240w, /assets/optimized/skolvalet-360.webp 360w, /assets/optimized/skolvalet-540.webp 540w, /assets/optimized/skolvalet-720.webp 720w",
+    coverWidth: 1396,
+    coverHeight: 2160,
     shortDescription: "En tydlig guide för föräldrar och vårdnadshavare som ska välja eller byta grundskola.",
     audience: "För föräldrar och vårdnadshavare som ska välja eller byta grundskola för sitt barn.",
     highlights: [
