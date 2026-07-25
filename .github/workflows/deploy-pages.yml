@@ -52,16 +52,6 @@ jobs:
               issue_number: context.issue.number,
               body: `### Production build failure\n\n\`\`\`text\n${tail}\n\`\`\``
             });
-      - name: Archive migrated assets in the repository
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          git add -f public/assets/originals public/assets/optimized public/media public/brand/boosta-social.png migration/asset-manifest.json
-          if ! git diff --cached --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "Archive migrated source assets [skip ci]"
-            git push
-          fi
       - name: Verify no old CDN hotlinks in exported pages
         run: |
           if grep -R "assets.zyrosite.com" out --include='*.html' --include='*.css' --include='*.js'; then
@@ -81,6 +71,45 @@ jobs:
           test -f out/assets/optimized/rektor.webp
           test -f out/assets/optimized/skolvalet.webp
           test -f out/media/intervju-med-malla-taipale.pdf
+      - name: Run Lighthouse audits
+        id: lighthouse
+        continue-on-error: true
+        run: npx --yes @lhci/cli@0.15.1 autorun --config=lighthouserc.json
+      - name: Summarize Lighthouse results
+        if: always() && steps.lighthouse.outcome != 'skipped'
+        run: node scripts/summarize-lighthouse.mjs
+      - name: Post Lighthouse results to pull request
+        if: always() && github.event_name == 'pull_request' && steps.lighthouse.outcome != 'skipped'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = fs.readFileSync('lighthouse-summary.md', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: summary
+            });
+      - name: Upload Lighthouse reports
+        if: always() && steps.lighthouse.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: lighthouse-results
+      - name: Enforce Lighthouse targets
+        if: steps.lighthouse.outcome == 'failure'
+        run: exit 1
+      - name: Archive migrated assets in the repository
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git add -f public/assets/originals public/assets/optimized public/media public/brand/boosta-social.png migration/asset-manifest.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Archive migrated source assets [skip ci]"
+            git push
+          fi
       - name: Upload Pages artifact
         if: github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
