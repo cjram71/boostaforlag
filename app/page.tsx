@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { BookCard } from "@/components/Site";
 import { JsonLd } from "@/components/Site";
 import { VideoPoster } from "@/components/Site";
@@ -37,23 +36,29 @@ export default function HomePage() {
               värld – om att leda en skola och om att välja rätt skola för sitt barn.
             </p>
             <div className="button-row">
-              <Link className="button" href="/bocker/">Se våra böcker</Link>
-              <Link className="button button-secondary" href="/forlaget/">Om Boosta Förlag</Link>
+              <a className="button" href="/bocker/">Se våra böcker</a>
+              <a className="button button-secondary" href="/forlaget/">Om Boosta Förlag</a>
             </div>
           </div>
           <div className="hero-covers" aria-label="Aktuella böcker från Boosta Förlag">
             <img
               className="cover-rektor"
               src={books[0].cover}
+              srcSet={books[0].coverSrcSet}
+              sizes="(max-width: 620px) 47vw, (max-width: 860px) 235px, 275px"
               width={books[0].coverWidth}
               height={books[0].coverHeight}
+              decoding="async"
               alt={`Omslag till ${books[0].title}`}
             />
             <img
               className="cover-skolvalet"
               src={books[1].cover}
+              srcSet={books[1].coverSrcSet}
+              sizes="(max-width: 620px) 47vw, (max-width: 860px) 235px, 275px"
               width={books[1].coverWidth}
               height={books[1].coverHeight}
+              decoding="async"
               alt={`Omslag till ${books[1].title}`}
             />
           </div>
@@ -87,13 +92,7 @@ export default function HomePage() {
       <section className="section section-white">
         <div className="shell feature-grid">
           <div className="portrait-frame">
-            <img
-              src="/assets/optimized/malla-taipale.webp"
-              width="768"
-              height="943"
-              loading="lazy"
-              alt="Porträtt av Malla Taipale"
-            />
+            <img src="/assets/optimized/malla-taipale.webp" width="720" height="960" loading="lazy" decoding="async" alt="Porträtt av Malla Taipale" />
           </div>
           <div>
             <p className="eyebrow">Författare, skolledare och föreläsare</p>
@@ -108,17 +107,14 @@ export default function HomePage() {
               <p>Jag har varit rak och ganska sträng i mitt arbete men alltid gjort jobbet med stor kärlek och aldrig någonsin nedvärderat mina elever.</p>
               <cite>– Malla Taipale</cite>
             </blockquote>
-            <Link className="text-link" href="/malla-taipale/">Läs mer om Malla <span aria-hidden="true">→</span></Link>
+            <a className="text-link" href="/malla-taipale/">Läs mer om Malla <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </section>
 
       <section className="section publisher-band">
         <div className="shell publisher-grid">
-          <div>
-            <p className="eyebrow eyebrow-light">Förlaget</p>
-            <h2>Ett förlag för användbar kunskap</h2>
-          </div>
+          <div><p className="eyebrow eyebrow-light">Förlaget</p><h2>Ett förlag för användbar kunskap</h2></div>
           <div>
             <p className="lead-small">
               Boosta Förlag grundades av författaren och journalisten Nadja C Rahmings. Hennes
@@ -126,7 +122,7 @@ export default function HomePage() {
               relevant och möjlig att använda.
             </p>
             <p>Läromedelsserien Natur &amp; Miljöpärmen har lästs av cirka 2,5 miljoner elever.</p>
-            <Link className="button button-light" href="/forlaget/">Om förlaget</Link>
+            <a className="button button-light" href="/forlaget/">Om förlaget</a>
           </div>
         </div>
       </section>
@@ -141,10 +137,7 @@ export default function HomePage() {
               mobilanpassade format där text kan kombineras med bild, ljud, video och länkar.
             </p>
             <h3>Travel in Stockholm</h3>
-            <p>
-              En mobil guide till Stockholms kollektivtrafik visar hur ett interaktivt
-              bokformat kan hjälpa resenären i rätt ögonblick.
-            </p>
+            <p>En mobil guide till Stockholms kollektivtrafik visar hur ett interaktivt bokformat kan hjälpa resenären i rätt ögonblick.</p>
           </div>
           <VideoPoster />
         </div>
@@ -154,8 +147,8 @@ export default function HomePage() {
         <div className="shell final-cta-inner">
           <h2>Kunskap blir värdefull först när den går att använda.</h2>
           <div className="button-row">
-            <Link className="button" href="/bocker/">Utforska böckerna</Link>
-            <Link className="button button-secondary" href="/kontakt/">Kontakta Boosta Förlag</Link>
+            <a className="button" href="/bocker/">Utforska böckerna</a>
+            <a className="button button-secondary" href="/kontakt/">Kontakta Boosta Förlag</a>
           </div>
         </div>
       </section>
