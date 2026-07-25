@@ -52,7 +52,7 @@ export default function SkolvaletPage() {
               <p className="lead">{book.shortDescription}</p>
               <p className="price price-large">{book.priceSek} kr</p>
               <a className="button" href={book.checkoutUrl}>
-                Köp Skolvalet – 146 kr
+                Köp {book.shortTitle} – {book.priceSek} kr
                 <span className="sr-only">. Du fortsätter till extern betalning via Stripe.</span>
               </a>
               <p className="checkout-note">Betalningen hanteras på Stripes externa kassasida.</p>
