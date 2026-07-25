@@ -1,4 +1,5 @@
 name: Migrate assets and validate
+
 on:
   push:
     branches: ["agent/boosta-rebuild"]
@@ -10,9 +11,13 @@ on:
       - "migration/source-crawl.json"
       - "migration/content-inventory.md"
       - "migration/source-*.png"
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
+
 permissions:
   contents: write
+
 jobs:
   migrate-and-build:
     runs-on: ubuntu-latest
@@ -27,6 +32,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
       - name: Commit migrated assets and reports
+        if: github.event_name == 'push'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
