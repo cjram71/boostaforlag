@@ -33,8 +33,8 @@ export const books: Book[] = [
     coverOriginal: '/assets/originals/rektor-original.jpg',
     coverAvif: '/assets/optimized/rektor-750.avif',
     coverWebp: '/assets/optimized/rektor-750.webp',
-    width: 750,
-    height: 1214,
+    width: 321,
+    height: 500,
     shortDescription:
       'En rak, personlig och lösningsinriktad bok om rektorns vardag, ansvar och möjligheten att vända en skola.',
     longDescription: [
@@ -64,8 +64,8 @@ export const books: Book[] = [
     coverOriginal: '/assets/originals/skolvalet-original.jpg',
     coverAvif: '/assets/optimized/skolvalet-750.avif',
     coverWebp: '/assets/optimized/skolvalet-750.webp',
-    width: 750,
-    height: 1214,
+    width: 1396,
+    height: 2160,
     shortDescription:
       'En praktisk vägledning för föräldrar och vårdnadshavare som ska välja eller byta grundskola.',
     longDescription: [
