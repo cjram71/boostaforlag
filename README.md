@@ -32,15 +32,35 @@ The static export is generated in `out/`.
 The repository includes `.github/workflows/deploy-pages.yml`. On every push to `main`, GitHub Actions:
 
 1. installs dependencies;
-2. downloads and archives the source assets;
-3. type-checks the project;
+2. type-checks the project;
+3. downloads and optimizes the source assets;
 4. builds the static export;
-5. commits the migrated originals, optimized files and checksum manifest when they change;
-6. verifies that exported pages contain no Zyro CDN hotlinks;
-7. verifies the required routes and files;
-8. deploys `out/` to GitHub Pages.
+5. verifies that exported pages contain no Zyro CDN hotlinks;
+6. verifies the required routes and assets;
+7. runs Lighthouse audits on the homepage, both book pages, the Malla page and the publisher page;
+8. commits the migrated originals, optimized files and checksum manifest when they change;
+9. deploys `out/` to GitHub Pages.
 
-In GitHub repository settings, set **Pages → Source** to **GitHub Actions**. The included `public/CNAME` uses `www.boostaforlag.se`.
+### Activate GitHub Pages
+
+1. Open **Settings → Pages** in the repository.
+2. Under **Build and deployment → Source**, select **GitHub Actions**.
+3. Under **Custom domain**, enter `www.boostaforlag.se` and save it.
+4. At the DNS provider, point the `www` CNAME record to `cjram71.github.io` without the repository name.
+5. Enable **Enforce HTTPS** when GitHub makes the option available.
+
+The `public/CNAME` file is retained for portability, but GitHub ignores it when publishing with a custom Actions workflow. The custom domain must therefore also be entered in the repository's Pages settings.
+
+## Quality gates
+
+The Lighthouse configuration is stored in `lighthouserc.json`. The workflow enforces these minimum scores:
+
+- Performance: 90
+- Accessibility: 95
+- Best Practices: 95
+- SEO: 95
+
+Full reports are uploaded as a workflow artifact and the measured scores are posted on pull requests.
 
 ## Editing content
 
