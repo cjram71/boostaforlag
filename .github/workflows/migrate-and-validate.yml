@@ -11,11 +11,14 @@ on:
       - "migration/source-crawl.json"
       - "migration/content-inventory.md"
       - "migration/source-*.png"
-      - "migration/lighthouse-summary.md"
       - "migration/validation-status.md"
   pull_request:
     branches: ["main"]
   workflow_dispatch:
+
+concurrency:
+  group: boosta-validation-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -23,7 +26,7 @@ permissions:
 jobs:
   migrate-and-build:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -34,71 +37,6 @@ jobs:
       - run: npm run migrate:source
       - run: npm run typecheck
       - run: npm run build
-      - name: Run Lighthouse audits
-        continue-on-error: true
-        shell: bash
-        run: |
-          mkdir -p migration/lighthouse
-          python3 -m http.server 4173 --directory out >/tmp/boosta-http.log 2>&1 &
-          SERVER_PID=$!
-          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
-          for attempt in {1..20}; do
-            if curl --silent --fail http://127.0.0.1:4173/ >/dev/null; then break; fi
-            sleep 1
-          done
-          CHROME_PATH=$(find "$HOME/.cache/ms-playwright" -type f \( -name chrome -o -name headless_shell \) -perm -u+x | head -n 1)
-          export CHROME_PATH
-          pages=(
-            "home:/"
-            "rektor:/bocker/rektor-sveriges-viktigaste-chef/"
-            "skolvalet:/bocker/skolvalet-rad-till-foraldrar/"
-            "malla:/malla-taipale/"
-            "forlaget:/forlaget/"
-          )
-          for entry in "${pages[@]}"; do
-            name=${entry%%:*}
-            page_path=${entry#*:}
-            npx --yes lighthouse@12.8.2 "http://127.0.0.1:4173${page_path}" \
-              --quiet \
-              --chrome-flags="--headless --no-sandbox" \
-              --only-categories=performance,accessibility,best-practices,seo \
-              --output=json \
-              --output-path="migration/lighthouse/${name}.json" || true
-          done
-          node <<'NODE'
-          const fs = require('node:fs');
-          const path = require('node:path');
-          const dir = path.join('migration', 'lighthouse');
-          const labels = {
-            home: 'Homepage',
-            rektor: 'Rektor book page',
-            skolvalet: 'Skolvalet book page',
-            malla: 'Malla Taipale page',
-            forlaget: 'Publisher page',
-          };
-          const categories = ['performance', 'accessibility', 'best-practices', 'seo'];
-          const lines = [
-            '# Lighthouse audit summary',
-            '',
-            `Generated: ${new Date().toISOString()}`,
-            '',
-            '| Page | Performance | Accessibility | Best Practices | SEO |',
-            '|---|---:|---:|---:|---:|',
-          ];
-          for (const [name, label] of Object.entries(labels)) {
-            const file = path.join(dir, `${name}.json`);
-            if (!fs.existsSync(file)) {
-              lines.push(`| ${label} | n/a | n/a | n/a | n/a |`);
-              continue;
-            }
-            const report = JSON.parse(fs.readFileSync(file, 'utf8'));
-            const scores = categories.map((key) => Math.round((report.categories?.[key]?.score ?? 0) * 100));
-            lines.push(`| ${label} | ${scores.join(' | ')} |`);
-          }
-          lines.push('', 'Targets: Performance ≥ 90; Accessibility, Best Practices and SEO ≥ 95.', '', 'Scores are mobile Lighthouse lab measurements from the generated static export and can vary slightly between runs.');
-          fs.writeFileSync(path.join('migration', 'lighthouse-summary.md'), `${lines.join('\n')}\n`);
-          NODE
-          rm -rf migration/lighthouse
       - name: Record successful validation
         shell: bash
         run: |
@@ -113,7 +51,7 @@ jobs:
           - Asset migration: passed
           - TypeScript type-check: passed
           - Static production build: passed
-          - Lighthouse audit: see \`migration/lighthouse-summary.md\`
+          - Lighthouse: not recorded in this workflow; run separately against the deployed preview
           EOF
       - name: Commit migrated assets and reports
         if: github.event_name == 'push'
