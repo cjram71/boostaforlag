@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Breadcrumbs } from "@/components/Site";
 import { JsonLd } from "@/components/Site";
 import { PurchasePanel } from "@/components/Site";
@@ -44,7 +43,16 @@ export default function SkolvaletPage() {
           <Breadcrumbs current={book.title} />
           <div className="product-grid">
             <div className="product-cover-wrap">
-              <img src={book.cover} width={book.coverWidth} height={book.coverHeight} alt={`Omslag till ${book.title} av ${book.author}`} />
+              <img
+                src={book.cover}
+                srcSet={book.coverSrcSet}
+                sizes="(max-width: 860px) calc(100vw - 3rem), 410px"
+                width={book.coverWidth}
+                height={book.coverHeight}
+                fetchPriority="high"
+                decoding="async"
+                alt={`Omslag till ${book.title} av ${book.author}`}
+              />
             </div>
             <div className="product-summary">
               <p className="eyebrow">{book.author}</p>
@@ -80,11 +88,11 @@ export default function SkolvaletPage() {
             <p>{book.audience}</p>
           </article>
           <aside className="author-teaser">
-            <img src="/assets/optimized/malla-taipale.webp" width="768" height="943" loading="lazy" alt="Porträtt av Malla Taipale" />
+            <img src="/assets/optimized/malla-taipale.webp" width="720" height="960" loading="lazy" decoding="async" alt="Porträtt av Malla Taipale" />
             <p className="eyebrow">Om författaren</p>
             <h2>Malla Taipale</h2>
             <p>Författare, tidigare rektor, coach och föreläsare med nära två decenniers erfarenhet av skolledarskap.</p>
-            <Link className="text-link" href="/malla-taipale/">Läs om Malla <span aria-hidden="true">→</span></Link>
+            <a className="text-link" href="/malla-taipale/">Läs om Malla <span aria-hidden="true">→</span></a>
           </aside>
         </div>
       </section>

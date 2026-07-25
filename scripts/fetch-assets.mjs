@@ -21,6 +21,8 @@ const assets = [
     fallbackUrl: "https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D375%2Ch%3D607%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/rektor-500-pcrPVnk0unBlOiLa.jpg",
     originalFilename: "rektor-500-pcrPVnk0unBlOiLa.jpg",
     optimizedFilename: "rektor.webp",
+    responsiveWidths: [240, 320],
+    maxWidth: 320,
     mimeType: "image/jpeg",
     altText: "Omslag till Rektor – Sveriges viktigaste chef av Malla Taipale",
     usage: "Book cover",
@@ -31,6 +33,8 @@ const assets = [
     fallbackUrl: "https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D375%2Ch%3D607%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/skolvalet-omslag-jHGTmp0jwjv5WFyk.jpg",
     originalFilename: "skolvalet-omslag-jHGTmp0jwjv5WFyk.jpg",
     optimizedFilename: "skolvalet.webp",
+    responsiveWidths: [240, 360, 540, 720],
+    maxWidth: 720,
     mimeType: "image/jpeg",
     altText: "Omslag till Skolvalet – Råd till föräldrar av Malla Taipale",
     usage: "Book cover",
@@ -41,6 +45,7 @@ const assets = [
     fallbackUrl: "https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D768%2Ch%3D943%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/malla-taipale-c6B6btJEZjPvxAhq.JPG",
     originalFilename: "malla-taipale-c6B6btJEZjPvxAhq.JPG",
     optimizedFilename: "malla-taipale.webp",
+    maxWidth: 960,
     mimeType: "image/jpeg",
     altText: "Porträtt av Malla Taipale",
     usage: "Author portrait",
@@ -51,6 +56,7 @@ const assets = [
     fallbackUrl: "https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D375%2Ch%3D531%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/nadja-aVlocycjchwJZndz.JPG",
     originalFilename: "nadja-aVlocycjchwJZndz.JPG",
     optimizedFilename: "nadja-rahmings.webp",
+    maxWidth: 960,
     mimeType: "image/jpeg",
     altText: "Porträtt av Boosta Förlags grundare Nadja C Rahmings",
     usage: "Founder portrait",
@@ -61,6 +67,7 @@ const assets = [
     fallbackUrl: "https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D375%2Ch%3D520%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/skolvalet-1-zRDO3fHYPMsXSD8W.jpg",
     originalFilename: "skolvalet-1-zRDO3fHYPMsXSD8W.jpg",
     optimizedFilename: "skolvalet-press-1.webp",
+    maxWidth: 1000,
     mimeType: "image/jpeg",
     altText: "Sida ett av pressklippet Skolchefen ger ut bok – med råd till föräldrar",
     usage: "Press clipping",
@@ -71,6 +78,7 @@ const assets = [
     fallbackUrl: "https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D375%2Ch%3D520%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/skolvalet-2-CYNvBW4sWKrwY97R.jpg",
     originalFilename: "skolvalet-2-CYNvBW4sWKrwY97R.jpg",
     optimizedFilename: "skolvalet-press-2.webp",
+    maxWidth: 1000,
     mimeType: "image/jpeg",
     altText: "Sida två av pressklippet Skolchefen ger ut bok – med råd till föräldrar",
     usage: "Press clipping",
@@ -81,6 +89,7 @@ const assets = [
     fallbackUrl: "https://i.ytimg.com/vi/X7Q16ITXozc/hqdefault.jpg",
     originalFilename: "travel-in-stockholm-poster.jpg",
     optimizedFilename: "travel-in-stockholm.webp",
+    maxWidth: 960,
     mimeType: "image/jpeg",
     altText: "Förhandsbild för Travel in Stockholm",
     usage: "Click-to-load video poster",
@@ -91,6 +100,7 @@ const assets = [
     fallbackUrl: "https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D375%2Ch%3D251%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/boosta_logo_liggande_orange-L8feMQcqQK5kUXRo.png",
     originalFilename: "boosta_logo_liggande_orange-L8feMQcqQK5kUXRo.png",
     optimizedFilename: "boosta-logo-original.webp",
+    maxWidth: 788,
     mimeType: "image/png",
     altText: "Boosta Förlag",
     usage: "Archived original logo asset; reconstructed wordmark is used because the transformed source is visually unusable",
@@ -118,9 +128,26 @@ for (const asset of assets) {
   const optimizedPath = path.join(optimized, asset.optimizedFilename);
   await writeFile(originalPath, buffer);
 
-  const image = sharp(buffer).rotate();
-  const metadata = await image.metadata();
-  await image.webp({ quality: asset.usage === "Press clipping" ? 88 : 84, effort: 5 }).toFile(optimizedPath);
+  const metadata = await sharp(buffer).rotate().metadata();
+  const quality = asset.usage === "Press clipping" ? 86 : asset.usage === "Book cover" ? 78 : 82;
+
+  await sharp(buffer)
+    .rotate()
+    .resize({ width: asset.maxWidth, withoutEnlargement: true })
+    .webp({ quality, effort: 6 })
+    .toFile(optimizedPath);
+
+  if (asset.responsiveWidths) {
+    const extension = path.extname(asset.optimizedFilename);
+    const basename = path.basename(asset.optimizedFilename, extension);
+    for (const width of asset.responsiveWidths) {
+      await sharp(buffer)
+        .rotate()
+        .resize({ width, withoutEnlargement: true })
+        .webp({ quality, effort: 6 })
+        .toFile(path.join(optimized, `${basename}-${width}${extension}`));
+    }
+  }
 
   manifest.push({
     sourcePage: asset.sourcePage,

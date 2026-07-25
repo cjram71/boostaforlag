@@ -1,3 +1,5 @@
+.mobile-navigation { display: none; }
+
 @media (max-width: 1080px) {
   .header-cta { display: none; }
   .book-card { grid-template-columns: 155px minmax(0, 1fr); }
@@ -8,12 +10,15 @@
   .site-header { backdrop-filter: none; }
   .header-inner { min-height: 72px; }
   .wordmark { width: 158px; }
+  .primary-navigation { display: none; }
+  .mobile-navigation { display: block; position: relative; margin-left: auto; }
+  .mobile-navigation summary { list-style: none; }
+  .mobile-navigation summary::-webkit-details-marker { display: none; }
   .menu-button {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
     min-height: 46px;
-    margin-left: auto;
     border: 1px solid var(--line);
     background: white;
     padding: 0.6rem 0.8rem;
@@ -25,22 +30,31 @@
   .menu-icon::before, .menu-icon::after { content: ""; position: absolute; left: 0; }
   .menu-icon::before { top: -6px; }
   .menu-icon::after { top: 6px; }
-  .primary-navigation {
+  .mobile-navigation[open] .menu-icon { background: transparent; }
+  .mobile-navigation[open] .menu-icon::before { top: 0; transform: rotate(45deg); }
+  .mobile-navigation[open] .menu-icon::after { top: 0; transform: rotate(-45deg); }
+  .mobile-navigation-panel {
     position: absolute;
-    top: 72px;
-    left: 0;
+    top: calc(100% + 0.55rem);
     right: 0;
-    display: none;
-    align-items: stretch;
+    width: min(330px, calc(100vw - 1.25rem));
+    display: grid;
     gap: 0;
-    margin: 0;
     background: var(--paper);
-    border-bottom: 1px solid var(--line);
-    padding: 0.6rem 1rem 1rem;
+    border: 1px solid var(--line);
+    box-shadow: 0 16px 40px rgba(25, 25, 25, 0.16);
+    padding: 0.6rem;
   }
-  .primary-navigation.is-open { display: grid; }
-  .primary-navigation a { min-height: 48px; display: flex; align-items: center; border-bottom: 1px solid var(--line); }
-  .primary-navigation a::after { display: none; }
+  .mobile-navigation-panel > a:not(.button) {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    padding: 0.4rem 0.65rem;
+    text-decoration: none;
+    font-weight: 750;
+  }
+  .mobile-navigation-panel .button { margin-top: 0.65rem; }
 
   .hero-grid, .product-grid, .feature-grid, .publisher-grid, .lab-grid, .article-layout,
   .two-column-text, .media-teaser-grid, .press-feature, .contact-card {
