@@ -1,0 +1,100 @@
+name: Build and deploy Boosta Förlag
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Type-check
+        run: npm run typecheck
+      - name: Migrate and optimize assets
+        run: npm run assets
+      - name: Build static website
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run build:site 2>&1 | tee build.log
+      - name: Report build failure
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const log = fs.existsSync('build.log') ? fs.readFileSync('build.log', 'utf8') : 'No build log was created.';
+            const tail = log.slice(-7000).replace(/```/g, "'''" );
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `### Production build failure\n\n\`\`\`text\n${tail}\n\`\`\``
+            });
+      - name: Archive migrated assets in the repository
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git add -f public/assets/originals public/assets/optimized public/media public/brand/boosta-social.png migration/asset-manifest.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Archive migrated source assets [skip ci]"
+            git push
+          fi
+      - name: Verify no old CDN hotlinks in exported pages
+        run: |
+          if grep -R "assets.zyrosite.com" out --include='*.html' --include='*.css' --include='*.js'; then
+            echo "Old CDN hotlink found in exported website."
+            exit 1
+          fi
+      - name: Verify required pages and assets
+        run: |
+          test -f out/index.html
+          test -f out/bocker/index.html
+          test -f out/bocker/rektor-sveriges-viktigaste-chef/index.html
+          test -f out/bocker/skolvalet-rad-till-foraldrar/index.html
+          test -f out/malla-taipale/index.html
+          test -f out/forlaget/index.html
+          test -f out/media/index.html
+          test -f out/kontakt/index.html
+          test -f out/assets/optimized/rektor.webp
+          test -f out/assets/optimized/skolvalet.webp
+          test -f out/media/intervju-med-malla-taipale.pdf
+      - name: Upload Pages artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    if: github.event_name == 'push'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

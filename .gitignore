@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+.DS_Store
+npm-debug.log*
+public/assets/originals/*
+!public/assets/originals/.gitkeep
+public/assets/optimized/*
+!public/assets/optimized/.gitkeep
+public/media/*
+!public/media/.gitkeep
+public/brand/boosta-social.png

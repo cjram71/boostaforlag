@@ -1,3 +1,165 @@
-import Link from 'next/link';
-const books=[{title:'Rektor – Sveriges viktigaste chef',price:134,cover:'https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D375%2Ch%3D607%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/rektor-500-pcrPVnk0unBlOiLa.jpg',url:'https://buy.stripe.com/eVq6oA2Wn4TE3wY8Kfb3q02'},{title:'Skolvalet – Råd till föräldrar',price:146,cover:'https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D375%2Ch%3D607%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/skolvalet-omslag-jHGTmp0jwjv5WFyk.jpg',url:'https://buy.stripe.com/bJe5kw0Ofcm62sU2lRb3q00'}];
-export default function Home(){return <><section className="hero wrap"><div><p className="eyebrow">Boosta Förlag</p><h1>Kunskap som går att förstå – och använda</h1><p className="lead">Vi ger ut personliga och praktiska faktaböcker för människor som vill förstå mer, fatta bättre beslut och skapa förändring. Våra aktuella titlar handlar om skolans värld.</p><div className="actions"><Link className="button" href="/bocker">Se våra böcker</Link><Link className="button secondary" href="/forlaget">Om Boosta Förlag</Link></div></div><div className="covers">{books.map(b=><img key={b.title} src={b.cover} alt={`Omslag till ${b.title}`}/>)}</div></section><section className="section alt"><div className="wrap"><p className="eyebrow">Aktuella titlar</p><h2>Böcker om skolans värld</h2><div className="bookgrid">{books.map(b=><article className="book" key={b.title}><img src={b.cover} alt={`Omslag till ${b.title}`}/><div><h3>{b.title}</h3><p>Av Malla Taipale. En personlig och praktisk bok byggd på verklig erfarenhet.</p><p className="price">{b.price} kr</p><a className="button" href={b.url}>Köp – {b.price} kr</a></div></article>)}</div></div></section><section className="section wrap feature"><img src="https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D768%2Ch%3D943%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/malla-taipale-c6B6btJEZjPvxAhq.JPG" alt="Porträtt av Malla Taipale"/><div><p className="eyebrow">Författare, skolledare och föreläsare</p><h2>Rektorn som vände skolor</h2><p>Under nära två decennier som grundskolerektor arbetade Malla Taipale med skolor som stod inför stora utmaningar. I dag delar hon sina erfarenheter genom böcker, coaching och föreläsningar.</p><blockquote>Jag har varit rak och ganska sträng i mitt arbete men alltid gjort jobbet med stor kärlek och aldrig någonsin nedvärderat mina elever.</blockquote><Link href="/malla-taipale">Läs mer om Malla →</Link></div></section></>}
+import Link from "next/link";
+import { BookCard } from "@/components/Site";
+import { JsonLd } from "@/components/Site";
+import { VideoPoster } from "@/components/Site";
+import { books } from "@/data/site";
+import { createMetadata, site } from "@/data/site";
+
+export const metadata = createMetadata({
+  title: "Boosta Förlag – Praktiska böcker om skola och ledarskap",
+  description:
+    "Boosta Förlag ger ut praktiska faktaböcker om skola, skolledarskap och skolval. Läs om Malla Taipales böcker och köp dem direkt online.",
+  path: "/",
+});
+
+export default function HomePage() {
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: books.map((book, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${site.url}/bocker/${book.slug}/`,
+      name: book.title,
+    })),
+  };
+
+  return (
+    <>
+      <section className="hero">
+        <div className="shell hero-grid">
+          <div className="hero-copy">
+            <p className="eyebrow">Boosta Förlag</p>
+            <h1>Kunskap som går att förstå – och använda</h1>
+            <p className="lead">
+              Vi ger ut personliga och praktiska faktaböcker för människor som vill förstå mer,
+              fatta bättre beslut och skapa förändring. Våra aktuella titlar handlar om skolans
+              värld – om att leda en skola och om att välja rätt skola för sitt barn.
+            </p>
+            <div className="button-row">
+              <Link className="button" href="/bocker/">Se våra böcker</Link>
+              <Link className="button button-secondary" href="/forlaget/">Om Boosta Förlag</Link>
+            </div>
+          </div>
+          <div className="hero-covers" aria-label="Aktuella böcker från Boosta Förlag">
+            <img
+              className="cover-rektor"
+              src={books[0].cover}
+              width={books[0].coverWidth}
+              height={books[0].coverHeight}
+              alt={`Omslag till ${books[0].title}`}
+            />
+            <img
+              className="cover-skolvalet"
+              src={books[1].cover}
+              width={books[1].coverWidth}
+              height={books[1].coverHeight}
+              alt={`Omslag till ${books[1].title}`}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="trust-strip" aria-label="Erfarenhet och inriktning">
+        <div className="shell trust-grid">
+          <p><strong>Nära 20 år</strong><span>som rektor</span></p>
+          <p><strong>2,5 miljoner elever</strong><span>har läst Nadjas läromedel</span></p>
+          <p><strong>Praktisk kunskap</strong><span>för rektorer och föräldrar</span></p>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="shell">
+          <div className="section-heading">
+            <p className="eyebrow">Aktuella titlar</p>
+            <h2>Böcker om skolans värld</h2>
+            <p className="lead">
+              Två böcker byggda på verklig erfarenhet – för dig som leder en skola eller står
+              inför ett viktigt skolval.
+            </p>
+          </div>
+          <div className="book-grid">
+            {books.map((book) => <BookCard key={book.slug} book={book} />)}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section-white">
+        <div className="shell feature-grid">
+          <div className="portrait-frame">
+            <img
+              src="/assets/optimized/malla-taipale.webp"
+              width="768"
+              height="943"
+              loading="lazy"
+              alt="Porträtt av Malla Taipale"
+            />
+          </div>
+          <div>
+            <p className="eyebrow">Författare, skolledare och föreläsare</p>
+            <h2>Rektorn som vände skolor</h2>
+            <p className="lead-small">
+              Under nära två decennier som grundskolerektor arbetade Malla Taipale med skolor
+              som stod inför stora utmaningar. Hon blev känd för sitt raka, engagerade och
+              lösningsinriktade ledarskap. I dag delar hon sina erfarenheter genom böcker,
+              coaching och föreläsningar.
+            </p>
+            <blockquote>
+              <p>Jag har varit rak och ganska sträng i mitt arbete men alltid gjort jobbet med stor kärlek och aldrig någonsin nedvärderat mina elever.</p>
+              <cite>– Malla Taipale</cite>
+            </blockquote>
+            <Link className="text-link" href="/malla-taipale/">Läs mer om Malla <span aria-hidden="true">→</span></Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section publisher-band">
+        <div className="shell publisher-grid">
+          <div>
+            <p className="eyebrow eyebrow-light">Förlaget</p>
+            <h2>Ett förlag för användbar kunskap</h2>
+          </div>
+          <div>
+            <p className="lead-small">
+              Boosta Förlag grundades av författaren och journalisten Nadja C Rahmings. Hennes
+              arbete har under mer än 25 år handlat om att göra komplex kunskap begriplig,
+              relevant och möjlig att använda.
+            </p>
+            <p>Läromedelsserien Natur &amp; Miljöpärmen har lästs av cirka 2,5 miljoner elever.</p>
+            <Link className="button button-light" href="/forlaget/">Om förlaget</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="shell lab-grid">
+          <div>
+            <p className="eyebrow">Boosta Lab</p>
+            <h2>Nya sätt att berätta</h2>
+            <p className="lead-small">
+              En bok behöver inte stanna vid tryckt text. Boosta utforskar interaktiva och
+              mobilanpassade format där text kan kombineras med bild, ljud, video och länkar.
+            </p>
+            <h3>Travel in Stockholm</h3>
+            <p>
+              En mobil guide till Stockholms kollektivtrafik visar hur ett interaktivt
+              bokformat kan hjälpa resenären i rätt ögonblick.
+            </p>
+          </div>
+          <VideoPoster />
+        </div>
+      </section>
+
+      <section className="final-cta">
+        <div className="shell final-cta-inner">
+          <h2>Kunskap blir värdefull först när den går att använda.</h2>
+          <div className="button-row">
+            <Link className="button" href="/bocker/">Utforska böckerna</Link>
+            <Link className="button button-secondary" href="/kontakt/">Kontakta Boosta Förlag</Link>
+          </div>
+        </div>
+      </section>
+      <JsonLd data={itemList} />
+    </>
+  );
+}
