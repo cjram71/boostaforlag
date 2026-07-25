@@ -6,8 +6,8 @@ export function PressCard() {
   return (
     <article className="press-card">
       <div className="press-preview" aria-hidden="true">
-        <img src={item.imageOne} alt="" width="750" height="1040" loading="lazy" />
-        <img src={item.imageTwo} alt="" width="750" height="1040" loading="lazy" />
+        <img src={item.imageOne} alt="" width="1000" height="1200" loading="lazy" />
+        <img src={item.imageTwo} alt="" width="1000" height="1200" loading="lazy" />
       </div>
       <div className="press-card__content">
         <p className="eyebrow">{item.publication} · {item.date}</p>
