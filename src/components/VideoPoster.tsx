@@ -18,7 +18,7 @@ export function VideoPoster() {
   }
   return (
     <button className="video-poster" type="button" onClick={() => setPlaying(true)} aria-label="Spela videon Travel in Stockholm">
-      <img src="/media/travel-in-stockholm-poster.jpg" alt="Travel in Stockholm, interaktiv mobilguide" width="960" height="720" loading="lazy" />
+      <img src="/media/travel-in-stockholm-poster.jpg" alt="Travel in Stockholm, interaktiv mobilguide" width="1280" height="720" loading="lazy" />
       <span className="video-play" aria-hidden="true">▶</span>
       <span className="video-consent">Klicka för att ladda videon från YouTube</span>
     </button>
