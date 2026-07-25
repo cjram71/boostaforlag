@@ -1,1 +1,40 @@
-const books=[{title:'Rektor – Sveriges viktigaste chef',price:134,cover:'https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D375%2Ch%3D607%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/rektor-500-pcrPVnk0unBlOiLa.jpg',url:'https://buy.stripe.com/eVq6oA2Wn4TE3wY8Kfb3q02',text:'En personlig och lösningsinriktad bok om rektorns vardag, ansvar och möjligheten att vända en skolas utveckling.'},{title:'Skolvalet – Råd till föräldrar',price:146,cover:'https://assets.zyrosite.com/cdn-cgi/image/format%3Dauto%2Cw%3D375%2Ch%3D607%2Cfit%3Dcrop/Yle47j8JbqFvKKJz/skolvalet-omslag-jHGTmp0jwjv5WFyk.jpg',url:'https://buy.stripe.com/bJe5kw0Ofcm62sU2lRb3q00',text:'En tydlig guide för föräldrar och vårdnadshavare som ska välja eller byta grundskola.'}];export const metadata={title:'Böcker'};export default function Page(){return <><section className="section wrap"><p className="eyebrow">Boosta Förlag</p><h1>Böcker från Boosta Förlag</h1><p className="lead">Personliga och praktiska faktaböcker skrivna av människor med verklig erfarenhet.</p><div className="bookgrid">{books.map(b=><article className="book" key={b.title}><img src={b.cover} alt={`Omslag till ${b.title}`}/><div><h2>{b.title}</h2><p>{b.text}</p><p className="price">{b.price} kr</p><a className="button" href={b.url}>Köp – {b.price} kr</a></div></article>)}</div></section><section className="section alt"><div className="wrap"><h2>För skolor, kommuner och organisationer</h2><p>Är ni intresserade av flera exemplar, en föreläsning eller ett samarbete? Kontakta Boosta Förlag för mer information.</p><a className="button" href="/kontakt">Kontakta förlaget</a></div></section></>}
+import Link from "next/link";
+import { BookCard } from "@/components/Site";
+import { PageHero } from "@/components/Site";
+import { books } from "@/data/site";
+import { createMetadata } from "@/data/site";
+
+export const metadata = createMetadata({
+  title: "Böcker – Boosta Förlag",
+  description:
+    "Upptäck Boosta Förlags personliga och praktiska faktaböcker om skolledarskap och skolval.",
+  path: "/bocker",
+});
+
+export default function BooksPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Utgivning"
+        title="Böcker från Boosta Förlag"
+        lead="Personliga och praktiska faktaböcker skrivna av människor med verklig erfarenhet."
+      />
+      <section className="section section-compact-top">
+        <div className="shell book-grid">
+          {books.map((book) => <BookCard key={book.slug} book={book} />)}
+        </div>
+      </section>
+      <section className="section section-white">
+        <div className="shell reading-width">
+          <p className="eyebrow">Flera exemplar och samarbeten</p>
+          <h2>För skolor, kommuner och organisationer</h2>
+          <p className="lead-small">
+            Är ni intresserade av flera exemplar, en föreläsning eller ett samarbete? Kontakta
+            Boosta Förlag för mer information.
+          </p>
+          <Link className="button" href="/kontakt/">Kontakta förlaget</Link>
+        </div>
+      </section>
+    </>
+  );
+}

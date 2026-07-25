@@ -1,3 +1,62 @@
-import './globals.css';import Link from 'next/link';import type {Metadata} from 'next';
-export const metadata:Metadata={metadataBase:new URL('https://www.boostaforlag.se'),title:{default:'Boosta Förlag – Praktiska böcker om skola och ledarskap',template:'%s | Boosta Förlag'},description:'Boosta Förlag ger ut praktiska faktaböcker om skola, skolledarskap och skolval.'};
-export default function Layout({children}:{children:React.ReactNode}){return <html lang="sv"><body><header className="header"><div className="wrap nav"><Link className="brand" href="/">BOOSTA FÖRLAG</Link><nav><Link href="/bocker">Böcker</Link><Link href="/malla-taipale">Malla Taipale</Link><Link href="/forlaget">Förlaget</Link><Link href="/media">Media</Link><Link href="/kontakt">Kontakt</Link></nav><Link className="button" href="/bocker">Köp böckerna</Link></div></header><main>{children}</main><footer><div className="wrap footergrid"><div><strong>BOOSTA FÖRLAG</strong><p>Nya sätt att berätta</p></div><div><a href="mailto:nadja@boostaforlag.com">nadja@boostaforlag.com</a><br/><a href="tel:+46700920234">+46-70 0920 234</a></div><div><a href="https://www.textandweb.com/">Text and Web ↗</a><p>© {new Date().getFullYear()} Boosta Förlag</p></div></div></footer></body></html>}
+import type { Metadata, Viewport } from "next";
+import "./globals.css";
+import { Footer } from "@/components/Site";
+import { Header } from "@/components/Site";
+import { JsonLd } from "@/components/Site";
+import { site } from "@/data/site";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  title: {
+    default: "Boosta Förlag – Praktiska böcker om skola och ledarskap",
+    template: "%s | Boosta Förlag",
+  },
+  description:
+    "Boosta Förlag ger ut praktiska faktaböcker om skola, skolledarskap och skolval. Läs om Malla Taipales böcker och köp dem direkt online.",
+  applicationName: site.name,
+  authors: [{ name: "Boosta Förlag" }],
+  creator: "Boosta Förlag",
+  publisher: "Boosta Förlag",
+  formatDetection: { telephone: false },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  colorScheme: "light",
+  themeColor: "#cf4728",
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const organization = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.name,
+    url: site.url,
+    email: site.email,
+    telephone: site.phoneDisplay,
+    slogan: site.tagline,
+    logo: `${site.url}/brand/boosta-social.png`,
+  };
+
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: site.url,
+    inLanguage: "sv-SE",
+    publisher: { "@type": "Organization", name: site.name },
+  };
+
+  return (
+    <html lang="sv">
+      <body>
+        <a className="skip-link" href="#main-content">Hoppa till innehållet</a>
+        <Header />
+        <main id="main-content">{children}</main>
+        <Footer />
+        <JsonLd data={[organization, website]} />
+      </body>
+    </html>
+  );
+}
