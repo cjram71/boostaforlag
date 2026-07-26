@@ -2,6 +2,8 @@
 
 A production-ready, static-first rebuild of `www.boostaforlag.se` using Next.js App Router, TypeScript and a small custom CSS system.
 
+The site presents Boosta Förlag as an independent specialist publisher based in Hedemora, with book sales, author information, press material and a dedicated offer for schools and organisations.
+
 ## Requirements
 
 - Node.js 22
@@ -27,6 +29,18 @@ npm run build
 
 The static export is generated in `out/`.
 
+## Main routes
+
+- `/` – homepage
+- `/bocker/` – book catalogue
+- `/bocker/rektor-sveriges-viktigaste-chef/`
+- `/bocker/skolvalet-rad-till-foraldrar/`
+- `/malla-taipale/`
+- `/for-skolor-organisationer/` – institutional orders, lectures, coaching and collaborations
+- `/forlaget/`
+- `/media/`
+- `/kontakt/`
+
 ## Deployment
 
 The repository includes `.github/workflows/deploy-pages.yml`. On every push to `main`, GitHub Actions:
@@ -37,7 +51,7 @@ The repository includes `.github/workflows/deploy-pages.yml`. On every push to `
 4. builds the static export;
 5. verifies that exported pages contain no Zyro CDN hotlinks;
 6. verifies the required routes and assets;
-7. runs Lighthouse audits on the homepage, both book pages, the Malla page and the publisher page;
+7. runs Lighthouse audits on the homepage, both book pages, the Malla page, the institutional page and the publisher page;
 8. commits the migrated originals, optimized files and checksum manifest when they change;
 9. deploys `out/` to GitHub Pages.
 
@@ -64,11 +78,12 @@ Full reports are uploaded as a workflow artifact and the measured scores are pos
 
 ## Editing content
 
-- Site identity, contact details, navigation and metadata helper: `data/site.ts`
+- Site identity, Hedemora location, contact details, navigation and metadata helper: `data/site.ts`
 - Books, prices and Stripe checkout links: `data/site.ts`
 - Press item: `data/site.ts`
 - Page copy: `app/**/page.tsx`
-- Design tokens and layout: `app/globals.css`
+- Design tokens and layout: `app/globals.css` and `app/styles/*.css`
+- Institutional offer and development areas: `app/for-skolor-organisationer/page.tsx`
 
 ## Change a price or Stripe link
 
