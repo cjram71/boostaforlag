@@ -10,7 +10,7 @@
         "http://localhost/for-skolor-organisationer/",
         "http://localhost/forlaget/"
       ],
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "settings": {
         "onlyCategories": ["performance", "accessibility", "best-practices", "seo"]
       }
