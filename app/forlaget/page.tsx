@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { JsonLd } from "@/components/Site";
 import { PageHero } from "@/components/Site";
 import { VideoPoster } from "@/components/Site";
@@ -7,7 +6,7 @@ import { createMetadata, site } from "@/data/site";
 export const metadata = createMetadata({
   title: "Om Boosta Förlag och Nadja C Rahmings",
   description:
-    "Boosta Förlag grundades av journalisten och författaren Nadja C Rahmings och ger ut personlig, praktisk och användbar kunskap.",
+    "Boosta Förlag är ett fristående specialistförlag i Hedemora, grundat av journalisten och författaren Nadja C Rahmings.",
   path: "/forlaget",
 });
 
@@ -24,7 +23,7 @@ export default function PublisherPage() {
 
   return (
     <>
-      <PageHero eyebrow="Om förlaget" title="Vi gör kunskap begriplig och användbar." lead="Boosta Förlag ger ut personliga och praktiska faktaböcker som hjälper människor att förstå mer, fatta bättre beslut och omsätta kunskap i handling." />
+      <PageHero eyebrow="Om förlaget" title="Vi gör kunskap begriplig och användbar." lead="Boosta Förlag är ett fristående specialistförlag i Hedemora. Vi ger ut personliga och praktiska faktaböcker och utvecklar kunskap som hjälper människor och organisationer att fatta bättre beslut." />
       <section className="section section-compact-top">
         <div className="shell feature-grid feature-grid-reverse">
           <div>
@@ -63,6 +62,39 @@ export default function PublisherPage() {
         </div>
       </section>
 
+      <section className="section growth-section">
+        <div className="shell">
+          <div className="section-heading">
+            <p className="eyebrow">Så bygger vi Boosta</p>
+            <h2>Ett förlag med flera vägar till nytta och tillväxt</h2>
+            <p className="lead">
+              Kärnan är böckerna. Runt dem kan Boosta bygga föreläsningar, coaching, arbetsmaterial,
+              redaktionella samarbeten och interaktiva format – utan att förlora den tydliga profilen.
+            </p>
+          </div>
+          <div className="growth-grid">
+            <article><h3>En fokuserad utgivning</h3><p>Praktiska titlar inom skola, ledarskap, föräldrakunskap och andra områden där erfarenhet behöver bli begriplig och användbar.</p></article>
+            <article><h3>Kunskap för verksamheter</h3><p>Böcker i flera exemplar, föreläsningar, coaching, workshops och material för skolor, kommuner och organisationer.</p></article>
+            <article><h3>Utveckling och partnerskap</h3><p>Nya guider, rapporter och digitala format som tas fram tillsammans med experter, finansiärer och relevanta samarbetspartner.</p></article>
+          </div>
+          <a className="button" href="/for-skolor-organisationer/">För skolor och organisationer</a>
+        </div>
+      </section>
+
+      <section className="section section-white">
+        <div className="shell location-band">
+          <div>
+            <p className="eyebrow">Hedemora, Dalarna</p>
+            <h2>Lokal förankring, nationell räckvidd</h2>
+          </div>
+          <p className="lead-small">
+            Boosta Förlag har sin bas i Hedemora. Därifrån kan förlaget utveckla böcker och projekt
+            med lokal närvaro, samtidigt som försäljning, samarbeten och digitala format riktas till
+            läsare och organisationer i hela Sverige.
+          </p>
+        </div>
+      </section>
+
       <section className="section">
         <div className="shell lab-grid">
           <div>
@@ -81,8 +113,8 @@ export default function PublisherPage() {
 
       <section className="final-cta">
         <div className="shell final-cta-inner">
-          <h2>Har du en fråga om våra böcker, pressmaterial, föreläsningar eller ett möjligt samarbete?</h2>
-          <Link className="button" href="/kontakt/">Kontakta Boosta Förlag</Link>
+          <h2>Har du en fråga om böcker, föreläsningar, pressmaterial eller ett möjligt samarbete?</h2>
+          <a className="button" href="/kontakt/">Kontakta Boosta Förlag</a>
         </div>
       </section>
       <JsonLd data={founder} />
