@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { BookCard } from "@/components/Site";
 import { PageHero } from "@/components/Site";
 import { books } from "@/data/site";
@@ -29,10 +28,10 @@ export default function BooksPage() {
           <p className="eyebrow">Flera exemplar och samarbeten</p>
           <h2>För skolor, kommuner och organisationer</h2>
           <p className="lead-small">
-            Är ni intresserade av flera exemplar, en föreläsning eller ett samarbete? Kontakta
-            Boosta Förlag för mer information.
+            Använd böckerna i en ledningsgrupp, utbildning, konferens eller föräldrasatsning. De kan
+            också kombineras med föreläsning, coaching eller ett redaktionellt samarbete.
           </p>
-          <Link className="button" href="/kontakt/">Kontakta förlaget</Link>
+          <a className="button" href="/for-skolor-organisationer/">Se möjligheterna</a>
         </div>
       </section>
     </>

@@ -27,9 +27,9 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="shell footer-grid">
-        <div><img className="footer-wordmark" src="/brand/boosta-wordmark-light.svg" width="236" height="64" alt="Boosta Förlag" /><p>{site.tagline}</p></div>
+        <div><img className="footer-wordmark" src="/brand/boosta-wordmark-light.svg" width="236" height="64" alt="Boosta Förlag" /><p>{site.tagline}</p><p className="footer-location">Fristående specialistförlag i {site.headquarters}.</p></div>
         <div><h2 className="footer-heading">Navigera</h2><nav className="footer-nav" aria-label="Sidfotsnavigation">{site.nav.slice(1).map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav></div>
-        <div><h2 className="footer-heading">Kontakt</h2><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a><a href={site.founderSite} target="_blank" rel="noopener noreferrer">Text and Web <span aria-hidden="true">↗</span><span className="sr-only"> (extern webbplats)</span></a></div>
+        <div><h2 className="footer-heading">Kontakt</h2><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a><span>{site.headquarters}</span><a href={site.founderSite} target="_blank" rel="noopener noreferrer">Text and Web <span aria-hidden="true">↗</span><span className="sr-only"> (extern webbplats)</span></a></div>
       </div>
       <div className="shell footer-bottom"><p>© {new Date().getFullYear()} Boosta Förlag</p><div><a href="/integritet/">Integritet</a><a href="/tillganglighet/">Tillgänglighet</a></div></div>
     </footer>

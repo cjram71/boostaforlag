@@ -65,6 +65,7 @@ jobs:
           test -f out/bocker/rektor-sveriges-viktigaste-chef/index.html
           test -f out/bocker/skolvalet-rad-till-foraldrar/index.html
           test -f out/malla-taipale/index.html
+          test -f out/for-skolor-organisationer/index.html
           test -f out/forlaget/index.html
           test -f out/media/index.html
           test -f out/kontakt/index.html
