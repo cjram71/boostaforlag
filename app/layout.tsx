@@ -8,11 +8,11 @@ import { site } from "@/data/site";
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Boosta Förlag – Praktiska böcker om skola och ledarskap",
+    default: "Boosta Förlag – Praktiska böcker och kunskap för skolan",
     template: "%s | Boosta Förlag",
   },
   description:
-    "Boosta Förlag ger ut praktiska faktaböcker om skola, skolledarskap och skolval. Läs om Malla Taipales böcker och köp dem direkt online.",
+    "Boosta Förlag i Hedemora ger ut praktiska faktaböcker om skola och utvecklar kunskap för skolor, organisationer och läsare i hela Sverige.",
   applicationName: site.name,
   authors: [{ name: "Boosta Förlag" }],
   creator: "Boosta Förlag",
@@ -37,6 +37,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     telephone: site.phoneDisplay,
     slogan: site.tagline,
     logo: `${site.url}/brand/boosta-social.png`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Hedemora",
+      addressRegion: "Dalarna",
+      addressCountry: "SE",
+    },
   };
 
   const website = {
