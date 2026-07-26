@@ -5,11 +5,44 @@ import { books } from "@/data/site";
 import { createMetadata, site } from "@/data/site";
 
 export const metadata = createMetadata({
-  title: "Boosta Förlag – Praktiska böcker om skola och ledarskap",
+  title: "Boosta Förlag – Praktiska böcker och kunskap för skolan",
   description:
-    "Boosta Förlag ger ut praktiska faktaböcker om skola, skolledarskap och skolval. Läs om Malla Taipales böcker och köp dem direkt online.",
+    "Boosta Förlag i Hedemora ger ut praktiska faktaböcker om skola, skolledarskap och skolval och utvecklar kunskap för skolor och organisationer.",
   path: "/",
 });
+
+const offers = [
+  {
+    number: "01",
+    title: "Böcker för hela verksamheten",
+    text: "Beställ flera exemplar till ledningsgrupper, utbildningar, bibliotek, föräldramöten eller andra gemensamma satsningar.",
+  },
+  {
+    number: "02",
+    title: "Föreläsning och coaching",
+    text: "Kombinera Malla Taipales böcker med ett samtal, en föreläsning eller coaching för skolledare och organisationer.",
+  },
+  {
+    number: "03",
+    title: "Kunskap som blir ett verktyg",
+    text: "Prata med oss om rapporter, guider, arbetsmaterial och redaktionella samarbeten som gör expertkunskap lättare att använda.",
+  },
+];
+
+const developmentAreas = [
+  {
+    title: "Läsning och läsförståelse",
+    text: "Hur skolor kan bygga läsvana, ordförråd, samtal om text och förståelse i alla ämnen.",
+  },
+  {
+    title: "Behöriga lärare som stannar",
+    text: "Hur erfarna och utlandsutbildade lärare kan nå svensk behörighet och samtidigt fortsätta bidra i skolan.",
+  },
+  {
+    title: "Ledarskap och skolval",
+    text: "Hur rektorer, lärare och föräldrar kan få tydligare stöd inför svåra beslut och långsiktig förändring.",
+  },
+];
 
 export default function HomePage() {
   const itemList = {
@@ -28,16 +61,15 @@ export default function HomePage() {
       <section className="hero">
         <div className="shell hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">Boosta Förlag</p>
+            <p className="eyebrow">Boosta Förlag · Hedemora, Dalarna</p>
             <h1>Kunskap som går att förstå – och använda</h1>
             <p className="lead">
-              Vi ger ut personliga och praktiska faktaböcker för människor som vill förstå mer,
-              fatta bättre beslut och skapa förändring. Våra aktuella titlar handlar om skolans
-              värld – om att leda en skola och om att välja rätt skola för sitt barn.
+              Vi ger ut personliga och praktiska faktaböcker och utvecklar kunskap för människor,
+              skolor och organisationer som vill förstå mer, fatta bättre beslut och skapa förändring.
             </p>
             <div className="button-row">
               <a className="button" href="/bocker/">Se våra böcker</a>
-              <a className="button button-secondary" href="/forlaget/">Om Boosta Förlag</a>
+              <a className="button button-secondary" href="/for-skolor-organisationer/">För skolor och organisationer</a>
             </div>
           </div>
           <div className="hero-covers" aria-label="Aktuella böcker från Boosta Förlag">
@@ -69,7 +101,8 @@ export default function HomePage() {
         <div className="shell trust-grid">
           <p><strong>Nära 20 år</strong><span>som rektor</span></p>
           <p><strong>2,5 miljoner elever</strong><span>har läst Nadjas läromedel</span></p>
-          <p><strong>Praktisk kunskap</strong><span>för rektorer och föräldrar</span></p>
+          <p><strong>Hedemora, Dalarna</strong><span>lokal bas och nationell ambition</span></p>
+          <p><strong>Praktisk kunskap</strong><span>för skola, ledarskap och vardag</span></p>
         </div>
       </section>
 
@@ -112,18 +145,63 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="section collaboration-section">
+        <div className="shell">
+          <div className="section-heading">
+            <p className="eyebrow">För skolor och organisationer</p>
+            <h2>Från en bok till verklig förändring</h2>
+            <p className="lead">
+              Boosta ska inte bara sälja böcker. Vi vill hjälpa verksamheter att använda kunskapen
+              i samtal, utbildning, ledarskap och praktiskt utvecklingsarbete.
+            </p>
+          </div>
+          <div className="offer-grid">
+            {offers.map((offer) => (
+              <article key={offer.number}>
+                <span>{offer.number}</span>
+                <h3>{offer.title}</h3>
+                <p>{offer.text}</p>
+              </article>
+            ))}
+          </div>
+          <a className="button" href="/for-skolor-organisationer/">Se möjligheterna</a>
+        </div>
+      </section>
+
       <section className="section publisher-band">
         <div className="shell publisher-grid">
           <div><p className="eyebrow eyebrow-light">Förlaget</p><h2>Ett förlag för användbar kunskap</h2></div>
           <div>
             <p className="lead-small">
-              Boosta Förlag grundades av författaren och journalisten Nadja C Rahmings. Hennes
-              arbete har under mer än 25 år handlat om att göra komplex kunskap begriplig,
-              relevant och möjlig att använda.
+              Boosta Förlag är ett fristående specialistförlag med bas i Hedemora. Förlaget
+              grundades av författaren och journalisten Nadja C Rahmings, vars arbete under mer än
+              25 år har handlat om att göra komplex kunskap begriplig, relevant och möjlig att använda.
             </p>
             <p>Läromedelsserien Natur &amp; Miljöpärmen har lästs av cirka 2,5 miljoner elever.</p>
             <a className="button button-light" href="/forlaget/">Om förlaget</a>
           </div>
+        </div>
+      </section>
+
+      <section className="section section-white">
+        <div className="shell">
+          <div className="section-heading">
+            <p className="eyebrow">Nästa utvecklingsområden</p>
+            <h2>Frågor vi vill hjälpa skolan att lösa</h2>
+            <p className="lead">
+              Boosta undersöker nya böcker, rapporter, samtal och verktyg inom områden där skolor,
+              lärare, elever och föräldrar behöver konkret stöd.
+            </p>
+          </div>
+          <div className="focus-grid">
+            {developmentAreas.map((area) => (
+              <article key={area.title}>
+                <h3>{area.title}</h3>
+                <p>{area.text}</p>
+              </article>
+            ))}
+          </div>
+          <a className="text-link" href="/for-skolor-organisationer/#utvecklingsomraden">Läs om vår riktning <span aria-hidden="true">→</span></a>
         </div>
       </section>
 
