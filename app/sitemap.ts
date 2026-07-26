@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/bocker/rektor-sveriges-viktigaste-chef/",
     "/bocker/skolvalet-rad-till-foraldrar/",
     "/malla-taipale/",
+    "/for-skolor-organisationer/",
     "/forlaget/",
     "/media/",
     "/kontakt/",
@@ -19,8 +20,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return routes.map((route) => ({
     url: `${site.url}${route}`,
-    lastModified: new Date("2026-07-25"),
-    changeFrequency: route === "/" ? "monthly" : "yearly",
-    priority: route === "/" ? 1 : route.startsWith("/bocker/") ? 0.8 : 0.6,
+    lastModified: new Date("2026-07-26"),
+    changeFrequency: route === "/" ? "monthly" : route === "/for-skolor-organisationer/" ? "monthly" : "yearly",
+    priority: route === "/" ? 1 : route.startsWith("/bocker/") ? 0.8 : route === "/for-skolor-organisationer/" ? 0.75 : 0.6,
   }));
 }
