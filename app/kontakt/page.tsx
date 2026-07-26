@@ -2,8 +2,8 @@ import { PageHero } from "@/components/Site";
 import { createMetadata, site } from "@/data/site";
 
 export const metadata = createMetadata({
-  title: "Kontakta Boosta Förlag",
-  description: "Kontakta Boosta Förlag om böcker, beställningar, pressmaterial, föreläsningar eller samarbeten.",
+  title: "Kontakta Boosta Förlag i Hedemora",
+  description: "Kontakta Boosta Förlag i Hedemora om böcker, beställningar, pressmaterial, föreläsningar, coaching eller samarbeten.",
   path: "/kontakt",
 });
 
@@ -29,11 +29,28 @@ export default function ContactPage() {
             <p className="eyebrow">Malla Taipale</p>
             <h2>Föreläsning eller coaching</h2>
             <p>Beskriv organisation, målgrupp och vad ni vill få hjälp med så återkommer förlaget.</p>
-            <a className="button button-secondary" href={`mailto:${site.email}?subject=Förfrågan om Malla Taipale`}>Skicka en förfrågan</a>
+            <a className="button button-secondary" href={`mailto:${site.email}?subject=${encodeURIComponent("Förfrågan om Malla Taipale")}`}>Skicka en förfrågan</a>
           </article>
         </div>
       </section>
+
       <section className="section section-white">
+        <div className="shell location-band">
+          <div>
+            <p className="eyebrow">Huvudkontor</p>
+            <h2>{site.headquarters}</h2>
+          </div>
+          <div>
+            <p className="lead-small">
+              Boosta Förlag är baserat i Hedemora och arbetar med läsare, skolor och organisationer
+              både lokalt och nationellt. Besök och möten bokas i förväg.
+            </p>
+            <a className="text-link" href="/for-skolor-organisationer/">Läs om samarbeten <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
         <div className="shell reading-width">
           <h2>Text and Web</h2>
           <p>Nadja C Rahmings övriga journalistiska, strategiska och kommunikativa arbete finns på Text and Web.</p>
